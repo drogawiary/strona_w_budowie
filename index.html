@@ -3,176 +3,135 @@
 <head>
   <meta charset="utf-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1" />
-  <title>Wybór drogi • Start</title>
-  <meta name="description" content="Strona startowa z trzema ścieżkami: A, B i C – w naszym niebieskim stylu."/>
+  <title>Strefa A • Wierzę w jednego Boga</title>
+  <meta name="description" content="Strefa A — hub treści i projektów. Jeden styl, przełącznik dzień/noc, wygodna nawigacja kafelkami."/>
   <style>
-    /* ===== ZMIENNE / MOTYW ===== */
     :root{
       --bg:#fbfaf7;
+      --card:#ffffff;
       --ink:#1f2430;
-      --muted:#667085;
+      --muted:#6b7280;
       --blue:#0a4fa3;
       --blue-ink:#ffffff;
-      --card:#ffffff;
       --border:#e6e6ea;
-      --radius:20px;
-      --shadow:0 10px 32px rgba(0,0,0,.08);
+      --chip:#eef3ff;
+      --accent:#1f5fbf;
+      --accent-ink:#ffffff;
+      --radius:16px;
+      --shadow:0 10px 30px rgba(0,0,0,.08);
       --maxw:1100px;
     }
     .dark{
       --bg:#0f1420;
+      --card:#141824;
       --ink:#e7ecf6;
       --muted:#aab3c6;
       --blue:#0b3d7a;
       --blue-ink:#ffffff;
-      --card:#141824;
       --border:#263049;
+      --chip:#112244;
+      --accent:#7aa8ff;
+      --accent-ink:#001a44;
       --shadow:0 10px 40px rgba(0,0,0,.4);
     }
 
-    /* ===== RESET / BAZA ===== */
     *,*::before,*::after{box-sizing:border-box}
     html,body{height:100%}
     body{
-      margin:0;
-      font-family:system-ui,-apple-system,Segoe UI,Roboto,Ubuntu,Cantarell,Noto Sans,Arial,"Apple Color Emoji","Segoe UI Emoji";
-      background:var(--bg); color:var(--ink);
-      display:flex; flex-direction:column; min-height:100vh;
-      line-height:1.5;
+      margin:0; background:var(--bg); color:var(--ink);
+      font-family:system-ui,-apple-system,Segoe UI,Roboto,Ubuntu,Cantarell,Noto Sans,Arial;
+      font-size:clamp(16px,1.05vw + .45rem,18px);
+      line-height:1.65; min-height:100vh; display:flex; flex-direction:column;
     }
     a{color:inherit; text-decoration:none}
     .wrap{width:min(100%,var(--maxw)); margin-inline:auto; padding:clamp(12px,2vw,24px)}
 
-    /* ===== NAGŁÓWEK ===== */
     header{position:sticky; top:0; z-index:20; backdrop-filter:saturate(180%) blur(6px)}
     .bar{
-      display:flex; align-items:center; justify-content:space-between;
-      background:color-mix(in oklab, var(--card) 80%, transparent);
+      display:flex; align-items:center; justify-content:space-between; gap:12px;
+      background:color-mix(in oklab, var(--card) 82%, transparent);
       border:1px solid var(--border); border-radius:16px; padding:10px 14px; box-shadow:var(--shadow);
     }
-    .title{font-weight:700; letter-spacing:.2px}
-    .mode-btn{
-      appearance:none; border:1px solid var(--border); background:var(--card); color:var(--ink);
-      padding:8px 12px; border-radius:12px; cursor:pointer; font-weight:600;
+    .title{font-weight:800; letter-spacing:.2px}
+    .mode-btn{appearance:none; border:1px solid var(--border); background:var(--card); color:var(--ink);
+      padding:8px 12px; border-radius:12px; cursor:pointer; font-weight:600}
+
+    /* ===== HERO ===== */
+    .hero{margin:clamp(18px,3vh,38px) 0 0; border-radius:20px; background:var(--blue); color:var(--blue-ink);
+      box-shadow:var(--shadow); overflow:hidden; position:relative; padding-bottom:20px;}
+    .hero::after{content:""; position:absolute; inset:auto -20% -35% -20%; height:60%;
+      background:linear-gradient(to top, rgba(255,255,255,.18), rgba(255,255,255,0) 60%); transform:skewY(-6deg); pointer-events:none;}
+    .hero-inner{padding:clamp(18px,3.5vw,42px); text-align:center}
+    .hero h1{margin:.1em 0 .2em; font-size:clamp(1.8rem,2.4vw + .6rem,2.6rem)}
+    .hero p{margin:0 auto; max-width:75ch; font-size:clamp(1.05rem,.9vw + .8rem,1.25rem); opacity:.98}
+
+    /* ===== ROZWIJANY BLOK ===== */
+    .expand{
+      margin-top:20px;
+      display:inline-block;
+      text-align:left;
+    }
+    .expand summary{
+      cursor:pointer;
+      background:rgba(255,255,255,.15);
+      padding:10px 18px;
+      border-radius:12px;
+      font-weight:700;
+      border:1px solid rgba(255,255,255,.25);
+      display:inline-block;
+      color:var(--blue-ink);
+    }
+    .expand summary::-webkit-details-marker{display:none;}
+    .expand[open] summary::after{
+      content:" (Zwiń)";
+      font-weight:400;
+      opacity:.85;
+    }
+    .expand-body{
+      background:rgba(255,255,255,.15);
+      border-radius:12px;
+      margin-top:10px;
+      padding:14px 18px;
+      color:#fff;
+      border:1px solid rgba(255,255,255,.25);
+      text-align:left;
+      max-width:700px;
+      margin-inline:auto;
     }
 
-    /* ===== SEKCJE PASKÓW ===== */
-    main{flex:1; display:grid; place-items:stretch}
-    .tiles{ display:grid; gap:clamp(36px,6vh,80px); height:100%; }
-    @media (min-height:700px){
-      .tiles{ grid-template-rows: 1fr 1fr 1fr; }
-    }
-
-    .tile{
-      position:relative; overflow:hidden; border-radius:var(--radius);
-      background:var(--blue); color:var(--blue-ink);
-      box-shadow:var(--shadow);
-      display:flex; align-items:center; justify-content:center;
-      isolation:isolate;
-      transition:transform .2s;
-    }
-    .tile:hover{ transform:translateY(-1px); }
-    .tile::after{
-      content:""; position:absolute; inset:auto -20% -35% -20%; height:60%;
-      background:linear-gradient(to top, rgba(255,255,255,.18), rgba(255,255,255,0) 60%);
-      transform:skewY(-6deg);
-      pointer-events:none;
-    }
-    .tile-content{ width:min(100%,820px); padding:clamp(16px,2.5vw,28px); text-align:center; }
-    .kicker{ font-size:.95rem; letter-spacing:.08em; opacity:.9; text-transform:uppercase; }
-    .tile h2{ margin:.2em 0 .4em; font-size:clamp(1.4rem,2vw + .5rem,2rem); line-height:1.15; }
-    .tile p{ margin:0 auto; max-width:70ch; font-size:clamp(.95rem,.6vw + .7rem,1.05rem); opacity:.98; }
-    .note{ display:block; margin-top:.6rem; font-size:.95rem; opacity:.85; font-style:italic; }
-
-    .tile a.stretch{ position:absolute; inset:0; z-index:2; }
-
-    footer{ color:var(--muted); font-size:.9rem; margin-top:18px; text-align:center; }
+    /* ===== STOPKA ===== */
+    footer{margin-top:36px; border-top:1px solid var(--border);}
+    footer .wrap{padding-top:18px; padding-bottom:24px; color:var(--muted); font-size:.95rem; text-align:center}
   </style>
 </head>
 <body>
   <div class="wrap">
-    <header aria-label="Nagłówek">
+    <header>
       <div class="bar">
-        <div class="title">Znajdź dla siebie opcję i zapraszam do środka 👇</div>
-        <button class="mode-btn" id="modeBtn" type="button" aria-pressed="false" title="Przełącz: dzień / noc">☀️ Dzień / 🌙 Noc</button>
+        <div class="title">✝️ Strefa A — Wierzę w jednego Boga</div>
+        <button class="mode-btn" id="modeBtn" type="button">☀️ Dzień / 🌙 Noc</button>
       </div>
     </header>
 
-    <main class="wrap" aria-label="Wybór ścieżki">
-      <div class="tiles" role="list">
+    <section class="hero">
+      <div class="hero-inner">
+        <h1>Wybierz dalej — treści i projekty w jednym miejscu</h1>
+        <p>To główna strona Strefy A. Nie ma tu przycisku „wstecz” — po prostu wybierasz dalej to, co Cię prowadzi.</p>
 
-        <!-- A -->
-        <section class="tile" role="listitem" aria-labelledby="hA">
-          <a class="stretch" href="https://drogawiary.github.io/A/" aria-label="Przejdź do ścieżki A: Wierzę w jednego Boga"></a>
-          <div class="tile-content">
-            <h2 id="hA">Wierzę w jednego Boga</h2>
-            <p>Uważam się za katolika i chcę zgłębiać duchową wiedzę, aby dostać się do nieba.</p>
+        <!-- 🔽 ROZWIJANY BLOK -->
+        <details class="expand">
+          <summary>➤ Rozwiń opis</summary>
+          <div class="expand-body">
+            <p>Ta strona jest duchowym centrum Twoich projektów — miejscem, w którym możesz wybierać ścieżki wiary, nauki i refleksji.  
+            Możesz tu wracać każdego dnia, by odkrywać kolejne rozdziały, znaki i inspiracje.</p>
           </div>
-        </section>
-
-        <!-- B -->
-        <section class="tile" role="listitem" aria-labelledby="hB">
-        <a class="stretch" href="https://drogawiary.github.io/B/" target="_self" aria-label="Przejdź do strefy B — strona zewnętrzna"></a>
-          <div class="tile-content">
-            <h2 id="hB">W nic nie wierzę</h2>
-            <p>Wierzę, że nic nie ma, wszystkie siły nadprzyrodzone są wymyślone.</p>
-          </div>
-        </section>
-
-        <!-- C -->
-        <section class="tile" role="listitem" aria-labelledby="hC">
-        <a class="stretch" href="https://drogawiary.github.io/C/" aria-label="Przejdź do ścieżki C: Wierzę w inne religie niż katolickie"></a>
-          <div class="tile-content">
-            <h2 id="hC">Wierzę w inne religie niż katolickie</h2>
-            <p>Wierzę w Ufo, kota i lalkę Barbie.</p>
-          </div>
-        </section>
-
-      <!-- D -->
-        <section class="tile" role="listitem" aria-labelledby="hC">
-        <a class="stretch" href="https://drogawiary.github.io/C/" aria-label="Przejdź do ścieżki C: Wierzę w inne religie niż katolickie"></a>
-          <div class="tile-content">
-            <h2 id="hC">Wierzę w Boga ale ...</h2>
-            <p>Chcę swobody w życiu, a nie być jak te dewotki, latać do koscioła żeby wszystkich zaraz obgadywać</p>
-          </div>
-        </section>
-       
-        
+        </details>
       </div>
+    </section>
 
-    <footer style="
-      background:color-mix(in oklab, var(--card) 70%, #f5e8c8);
-      color:var(--ink);
-      text-align:center;
-      padding:14px 8px;
-      font-size:0.95rem;
-      font-family:system-ui,Segoe UI,Roboto;
-      border-top:1px solid var(--border);
-      opacity:.9;
-    ">
-      ✦ © 2025 <strong>Albert Studio</strong>
+    <footer>
+      <div class="wrap">✦ © 2025 <strong>Albert Studio</strong> — Wszystkie prawa zastrzeżone</div>
     </footer>
-    </main>
   </div>
-
-  <script>
-    // ===== Tryb dzień/noc z pamięcią w localStorage =====
-    const modeBtn = document.getElementById('modeBtn');
-    const LS_KEY = 'theme-pref';
-    const apply = (m)=>{
-      document.body.classList.toggle('dark', m==='dark');
-      modeBtn.setAttribute('aria-pressed', m==='dark');
-    }
-    const saved = localStorage.getItem(LS_KEY);
-    if(saved){ apply(saved); }
-    modeBtn.addEventListener('click', ()=>{
-      const now = document.body.classList.contains('dark') ? 'light' : 'dark';
-      localStorage.setItem(LS_KEY, now);
-      apply(now);
-    });
-  </script>
-
-
-
 </body>
 </html>
